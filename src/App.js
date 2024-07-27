@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchUsers } from "./reduxStore/slice/userSlice";
+import AddTodo from "./component/AddTodo";
+import TodoList from "./component/TodoList";
+import UsersTable from "./component/UsersTable";
 
 function App() {
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.users);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="app-div">
+        <h1>Todo List</h1>
+        <AddTodo />
+        <TodoList />
+        <h2>Users List</h2>
+        <UsersTable users={users} />
+      </div>
     </div>
   );
 }
